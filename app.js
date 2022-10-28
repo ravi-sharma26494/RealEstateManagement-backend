@@ -18,3 +18,5 @@ require('./models/listing')
 app.use(express.json());
 app.use(require('./routers/routes'))
 app.listen(port,()=> {console.log(`Server is up at ${port}`)})
+
+//https://realestate-backend-project.herokuapp.com
