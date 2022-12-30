@@ -188,7 +188,7 @@ route.post(
     const { email, password, cpassword } = req.body;
 
     if (!email || !password || !cpassword) {
-      res.status(422).json({ error: "fill all the details" });
+      res.status(422).json({ error: "Please fill all the required fields" });
     }
 
     try {

@@ -22,7 +22,7 @@ const authenticate = async (req, res, next) => {
   } catch (error) {
     res
       .status(401)
-      .json({ status: 401, message: 'Unauthorized no token provide' })
+      .json({ status: 401, message: 'Unauthorized no token provided' })
   }
 }
 
