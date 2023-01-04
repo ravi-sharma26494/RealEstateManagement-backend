@@ -1,22 +1,25 @@
-const mongoose = require("mongoose");
 const express = require("express");
-// const router = require("./routers/routes")
 const cors = require("cors")
-mongoose.connect("mongodb://localhost:27017/realestate")
-.then(()=> {console.log("connection success")})
-.catch((err)=> console.log(`Something went Wrong: ${err}`))
-
 const app = express();
-// app.use("/",router)
+const mongoose = require("mongoose");
+
 app.use(cors())
-const port = process.env.PORT || 8000
+app.use(express.json());
+
 require('./models/basicinfo')
 require('./models/propertydetails')
 require('./models/generalinfo')
 require('./models/listing')
-
-app.use(express.json());
 app.use(require('./routers/routes'))
+
+
+
+const port = process.env.PORT || 8000
+mongoose.connect("mongodb://localhost:27017/realestate")
+.then(()=> {console.log("connection success")})
+.catch((err)=> console.log(`Something went Wrong: ${err}`))
+
 app.listen(port,()=> {console.log(`Server is up at ${port}`)})
 
 //https://realestate-backend-project.herokuapp.com
+// rishabh.ahuja@embifi.in

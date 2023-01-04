@@ -6,7 +6,7 @@ const authenticate = async (req, res, next) => {
   try {
     const token = req.headers.authorization
 
-    const verifytoken = jwt.verify(token, keysecret)
+    const verifytoken = jwt.verify(token, keysecret) //_id
 
     const rootUser = await Login.findOne({ _id: verifytoken._id })
 
@@ -18,7 +18,7 @@ const authenticate = async (req, res, next) => {
     req.rootUser = rootUser
     req.userId = rootUser._id
 
-    next()
+    next();
   } catch (error) {
     res
       .status(401)

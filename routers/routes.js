@@ -53,7 +53,7 @@ route.post("/api/basicinfo/posts", async (req, res) => {
     });
   }
 
-  // console.log(req.body)
+  // console.log(req.body) PPDID1100
 });
 
 route.post(
@@ -66,7 +66,7 @@ route.post(
       });
       await postData.save();
       
-      superConstant.set("image", "image");
+      superConstant.set("image", req.body.image);
       superConstant.set("contact", postData.mobile);
 
       //random Views and Days
@@ -87,8 +87,6 @@ route.post(
       
           
       if (parseInt(details.length) < 1) {
-        //console.log(recordsLength)
-        console.log('I am here');
         const addPPDID = new Estate({
           ppdid: resultPPDID,
           image: superConstant.get("image"),
@@ -100,14 +98,11 @@ route.post(
         }).save();
         superConstant.clear();
       } else if(parseInt(details.length) >= 1) {
-        console.log('I am else if');
         const propertyDetail = await Estate.find().limit(1).sort({$natural:-1})
           .then((data) => {
             console.log(data)
-            console.log(`DADAF: ${data.ppdid}`)
             var newPPDID = '';
             res.status(200).json({ data });
-            console.log(`Stll string :${data.ppdid}`)
             const lastPPDID = JSON.stringify(data[0].ppdid);
             console.log(lastPPDID);
             
@@ -145,7 +140,8 @@ route.get("/images/:name", (req, res) => {
   console.log(__dirname);
 });
 
-route.get("/listing", async (req, res) => {
+route.get("/api/listing", async (req, res) => {
+  
   await Estate.find()
     .then((data) => {
       if(parseInt(data.length < 1)){
@@ -188,18 +184,18 @@ route.post(
     const { email, password, cpassword } = req.body;
 
     if (!email || !password || !cpassword) {
-      res.status(422).json({ error: "Please fill all the required fields" });
+     return res.status(422).json({ error: "Please fill all the required fields" });
     }
 
     try {
       const preuser = await Login.findOne({ email: email });
 
       if (preuser) {
-        res.status(422).json({ message: "This Email, Already Exist" });
+        return res.status(422).json({ message: "This Email, Already Exist" });
       } else if (password !== cpassword) {
-        res
+        return res
           .status(422)
-          .json({ error: "Password and Confirm Password Not Match" });
+          .json({ error: "Passwords donot match" });
       } else {
         const finalUser = new Login({
           email,
@@ -234,7 +230,7 @@ route.post("/login", async (req, res) => {
     // console.log(userValid)
 
     if (!isMatch) {
-      return res.status(422).json({ message: "invalid details" });
+      return res.status(422).json({ message: "Invalid email or password..." });
     } else {
       // token generate
       const token = await userValid.generateAuthtoken();
